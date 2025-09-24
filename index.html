@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smarby: La Aventura Cósmica</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      overflow-x: hidden;
+      background-color: #000;
+      color: #e0e0e0;
+    }
+    /* Canvas solo en inicio */
+    #starfield {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+    #inicio {
+      position: relative;
+      overflow: hidden;
+    }
+    .gradient-text {
+      background: linear-gradient(90deg, #ff6bff, #00c3ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .btn-primary {
+      background: linear-gradient(90deg, #6a00ff, #009dff);
+      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 15px rgba(0, 191, 255, 0.4);
+    }
+    /* Carrusel */
+    .carousel {
+      display: flex;
+      overflow: hidden;
+      position: relative;
+    }
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+    .carousel-item {
+      min-width: 100%;
+      flex: 1 0 100%;
+      text-align: center;
+    }
+    /* Botón volver arriba */
+    #scrollTopBtn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: linear-gradient(90deg, #6a00ff, #009dff);
+      color: white;
+      padding: 12px 16px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-black/70 backdrop-blur-md shadow-lg py-4 px-6 md:px-12 fixed top-0 w-full z-50">
+    <nav class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+      <a href="#" class="text-3xl font-extrabold gradient-text mb-4 md:mb-0">🐾 Smarby</a>
+      <ul class="flex space-x-6">
+        <li><a href="#inicio" class="hover:text-white">Inicio</a></li>
+        <li><a href="#acerca" class="hover:text-white">Acerca</a></li>
+        <li><a href="#jugabilidad" class="hover:text-white">Jugabilidad</a></li>
+        <li><a href="#equipo" class="hover:text-white">Equipo</a></li>
+        <li><a href="#galeria" class="hover:text-white">Galería</a></li>
+        <li><a href="#contacto" class="hover:text-white">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="flex-grow">
+    <!-- Inicio -->
+    <section id="inicio" class="relative h-screen flex items-center justify-center text-center p-6">
+      <!-- Fondo estrellas -->
+      <canvas id="starfield"></canvas>
+      <div class="absolute inset-0 bg-black/60"></div>
+      <div class="relative z-10 max-w-4xl mx-auto">
+        <h1 class="text-5xl md:text-7xl font-extrabold gradient-text mb-6">Smarby: La Aventura Cósmica</h1>
+        <p class="text-xl md:text-2xl mb-8">Explora galaxias lejanas con Smarby, el adorable animalito espacial, en una aventura llena de misterios y diversión.</p>
+        <button id="playButton" class="btn-primary text-white font-bold py-4 px-10 rounded-full text-lg shadow-lg hover:shadow-xl">¡Jugar Ahora!</button>
+      </div>
+    </section>
+
+    <!-- Acerca -->
+    <section id="acerca" class="py-20 px-6 bg-black/80">
+      <div class="max-w-5xl mx-auto text-center">
+        <h2 class="text-4xl font-bold gradient-text mb-6">Acerca de Smarby</h2>
+        <p class="text-lg leading-relaxed">Smarby es un pequeño explorador espacial que viaja entre planetas buscando tesoros, resolviendo acertijos y enfrentando desafíos cósmicos. Su misión es devolver la armonía a la galaxia, mientras se hace amigo de criaturas únicas en cada mundo.</p>
+      </div>
+    </section>
+
+    <!-- Jugabilidad -->
+    <section id="jugabilidad" class="py-20 px-6 bg-gradient-to-r from-purple-900 via-black to-blue-900">
+      <div class="max-w-6xl mx-auto text-center">
+        <h2 class="text-4xl font-bold gradient-text mb-12">Jugabilidad</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="bg-black/60 p-6 rounded-2xl shadow-lg hover:scale-105 transition">
+            <h3 class="text-2xl font-bold mb-4">🌌 Exploración</h3>
+            <p>Viaja por diferentes planetas con paisajes únicos, cada uno lleno de sorpresas.</p>
+          </div>
+          <div class="bg-black/60 p-6 rounded-2xl shadow-lg hover:scale-105 transition">
+            <h3 class="text-2xl font-bold mb-4">🧩 Retos</h3>
+            <p>Resuelve acertijos cósmicos y supera obstáculos para avanzar en la historia.</p>
+          </div>
+          <div class="bg-black/60 p-6 rounded-2xl shadow-lg hover:scale-105 transition">
+            <h3 class="text-2xl font-bold mb-4">🤝 Amigos</h3>
+            <p>Conoce aliados que te ayudarán en tu aventura intergaláctica.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Equipo -->
+    <section id="equipo" class="py-20 px-6 bg-black/90">
+      <div class="max-w-5xl mx-auto text-center">
+        <h2 class="text-4xl font-bold gradient-text mb-12">Prresentaciones</h2>
+        <div class="carousel">
+          <div class="carousel-track" id="carouselTrack">
+            <div class="carousel-item"><img src="c:\Users\50251\OneDrive\Imágenes\niños.jpg" class="w-40 mx-auto rounded-full mb-4"><p>🚀  – interactividad</p></div>
+            <div class="carousel-item"><img src="c:\Users\50251\OneDrive\Imágenes\miss.jpg" class="w-40 mx-auto rounded-full mb-4"><p>👨‍💻  – conocimiento</p></div>
+            <div class="carousel-item"><img src="c:\Users\50251\OneDrive\Imágenes\nino.jpg" class="w-40 mx-auto rounded-full mb-4"><p>🎨  – aventura</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Galería -->
+    <section id="galeria" class="py-20 px-6 bg-gradient-to-r from-black to-purple-900">
+      <div class="max-w-6xl mx-auto text-center">
+        <h2 class="text-4xl font-bold gradient-text mb-12">Galería Cósmica</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+          <img src="c:\Users\50251\OneDrive\Imágenes\present.jpg" class="rounded-xl shadow-lg hover:scale-105 transition">
+          <img src="c:\Users\50251\OneDrive\Imágenes\pricila.jpg" class="rounded-xl shadow-lg hover:scale-105 transition">
+          <img src="c:\Users\50251\OneDrive\Imágenes\const.jpg" class="rounded-xl shadow-lg hover:scale-105 transition">
+          <img src="c:\Users\50251\OneDrive\Imágenes\belen.jpg" class="rounded-xl shadow-lg hover:scale-105 transition">
+          <img src="c:\Users\50251\OneDrive\Imágenes\extra.jpg" class="rounded-xl shadow-lg hover:scale-105 transition">
+          <img src="c:\Users\50251\OneDrive\Imágenes\miss.jpg" class="rounded-xl shadow-lg hover:scale-105 transition">
+        </div>
+      </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto" class="py-20 px-6 bg-black/80">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="text-4xl font-bold gradient-text mb-6">Contacto</h2>
+        <form class="space-y-6">
+          <input type="text" placeholder="Tu Nombre" class="w-full p-3 rounded-lg bg-black/70 border border-gray-600">
+          <input type="email" placeholder="Tu Correo" class="w-full p-3 rounded-lg bg-black/70 border border-gray-600">
+          <textarea placeholder="Tu Mensaje" class="w-full p-3 rounded-lg bg-black/70 border border-gray-600"></textarea>
+          <button type="submit" class="btn-primary text-white font-bold py-3 px-8 rounded-full">Enviar</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-black py-8 text-center text-gray-400">
+    <p>&copy; 2025 Smarby: La Aventura Cósmica. Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- Botón scroll top -->
+  <button id="scrollTopBtn">↑</button>
+
+  <!-- Script Estrellas + Carrusel + Scroll -->
+  <script>
+    /* =========================
+       EFECTO DE ESTRELLAS SOLO EN INICIO
+    ========================== */
+    const canvas = document.getElementById("starfield");
+    const ctx = canvas.getContext("2d");
+    let stars = [];
+    let numStars = 400;
+    let centerX, centerY;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = document.getElementById("inicio").offsetHeight;
+      centerX = canvas.width / 2;
+      centerY = canvas.height / 2;
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    class Star {
+      constructor() { this.reset(); }
+      reset() {
+        this.x = (Math.random() - 0.5) * canvas.width;
+        this.y = (Math.random() - 0.5) * canvas.height;
+        this.z = Math.random() * canvas.width;
+      }
+      update() {
+        this.z -= 2; // velocidad
+        if (this.z <= 0) this.reset();
+      }
+      draw() {
+        let sx = (this.x / this.z) * centerX + centerX;
+        let sy = (this.y / this.z) * centerY + centerY;
+        let size = (1 - this.z / canvas.width) * 3;
+        ctx.beginPath();
+        ctx.arc(sx, sy, size, 0, Math.PI * 2);
+        ctx.fillStyle = "white";
+        ctx.fill();
+      }
+    }
+
+    function createStars() {
+      stars = [];
+      for (let i = 0; i < numStars; i++) stars.push(new Star());
+    }
+    createStars();
+
+    function animateStars() {
+      ctx.fillStyle = "black";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      stars.forEach(star => {
+        star.update();
+        star.draw();
+      });
+      requestAnimationFrame(animateStars);
+    }
+    animateStars();
+
+    /* =========================
+       CARRUSEL AUTOMÁTICO
+    ========================== */
+    const track = document.getElementById("carouselTrack");
+    let index = 0;
+    setInterval(() => {
+      if (track) {
+        index = (index + 1) % track.children.length;
+        track.style.transform = translateX(-${index * 100}%);
+      }
+    }, 3000);
+
+    /* =========================
+       BOTÓN SCROLL TOP
+    ========================== */
+    const scrollBtn = document.getElementById("scrollTopBtn");
+    window.onscroll = function () {
+      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        scrollBtn.style.display = "block";
+      } else {
+        scrollBtn.style.display = "none";
+      }
+    };
+    scrollBtn.onclick = function () {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+  </script>
+</body>
+</html>
